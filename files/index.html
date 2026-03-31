@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathieu Gouyou Beauchamps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050f08;--bg2:#070f09;--card:#0c1a0e;--border:#1a3020;
+  --green:#4cff82;--gd:#1a5c32;--gdeep:#0f3d20;--muted:#2a5038;
+  --text:#dff0e4;--text2:#8ab898;--text3:#4a7058;--white:#eef7f1;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:22px 48px;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(5,15,8,.93);border-color:var(--border);backdrop-filter:blur(12px)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--green)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--green)}
+
+/* HERO — parallax, starts showing bottom of image */
+.hero{height:80vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-img{
+  position:absolute;inset:0;
+  background-size:cover;
+  /* Start anchored to bottom so we see the bottom of the photo first */
+  background-position:center 35%;
+  will-change:background-position;
+}
+.hero-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 0%,transparent 40%,rgba(5,15,8,.55) 65%,rgba(5,15,8,.92) 85%,var(--bg) 100%)
+}
+.hero-content{position:relative;z-index:2;padding:0 48px 52px;width:100%}
+.hero-name-peek{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,112px);line-height:.87;letter-spacing:.01em;color:var(--white);margin-bottom:24px}
+.hero-name-peek .g{color:var(--green)}
+.hero-sub-line{font-family:'Fraunces',serif;font-size:clamp(13px,1.6vw,17px);font-style:italic;font-weight:300;color:var(--text2);margin-bottom:28px}
+.hero-pills{display:flex;gap:9px;flex-wrap:wrap}
+.pill{font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:8px 16px;border-radius:100px;border:1px solid var(--border);color:var(--text2)}
+.pill.pf{background:var(--gdeep);color:var(--green);border-color:var(--gd)}
+.scroll-cue{position:absolute;bottom:32px;right:48px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-cue span{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-lr}
+.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--muted),transparent);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:.8}}
+
+section{padding:112px 48px}
+.sh{display:flex;align-items:baseline;gap:18px;margin-bottom:72px}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--green)}
+.st{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,52px);letter-spacing:.03em;color:var(--white)}
+.sl{flex:1;height:1px;background:var(--border);margin-bottom:5px}
+
+/* SCROLL REVEAL */
+.r{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.r.on{opacity:1;transform:none}
+.r-l{opacity:0;transform:translateX(-24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.r-l.on{opacity:1;transform:none}
+.r-r{opacity:0;transform:translateX(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.r-r.on{opacity:1;transform:none}
+
+/* ABOUT */
+.about-section{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
+.about-photo-wrap{position:relative;overflow:hidden}
+.about-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;transition:transform .6s ease}
+.about-photo-wrap:hover .about-photo{transform:scale(1.03)}
+.about-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--bg2) 100%);pointer-events:none}
+.about-badge{position:absolute;bottom:24px;left:24px;z-index:2;font-size:9px;letter-spacing:.2em;text-transform:uppercase;background:var(--green);color:var(--bg);padding:8px 16px;font-weight:500}
+.about-big{font-family:'Fraunces',serif;font-size:clamp(17px,2vw,23px);font-weight:300;line-height:1.55;color:var(--text);margin-bottom:48px}
+.about-big strong{color:var(--green);font-weight:700}
+.about-big em{font-style:italic;color:var(--text2)}
+.rows{display:flex;flex-direction:column}
+.row{display:flex;flex-direction:column;gap:5px;padding:17px 0;border-bottom:1px solid var(--border)}
+.row:first-child{border-top:1px solid var(--border)}
+.rl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text3)}
+.rv{font-size:13px;color:var(--text2)}
+
+/* PROJECTS */
+.proj-stack{display:flex;flex-direction:column;gap:3px}
+.prow{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:420px;background:var(--card);
+  border:1px solid var(--border);overflow:hidden;
+  transition:background .3s;
+  cursor:pointer;
+}
+.prow:hover{background:#0d1f10}
+.prow.flip{direction:rtl}
+.prow.flip > *{direction:ltr}
+.pt{padding:52px 48px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+.pt::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .42s cubic-bezier(.22,1,.36,1)}
+.prow:hover .pt::before{transform:scaleX(1)}
+.pc-num{font-size:9px;letter-spacing:.22em;color:var(--text3);margin-bottom:20px}
+.pc-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,5vw,68px);line-height:.88;letter-spacing:.02em;color:var(--white);margin-bottom:14px}
+.pc-name .g{color:var(--green)}
+.pc-sub{font-family:'Fraunces',serif;font-size:14px;font-style:italic;color:var(--text3);margin-bottom:20px}
+.pc-desc{font-size:clamp(14px,1.4vw,16px);line-height:1.78;color:var(--text2);max-width:520px}
+.pc-stats{display:flex;gap:32px;margin-top:32px;padding-top:28px;border-top:1px solid var(--border)}
+.ps{display:flex;flex-direction:column;gap:3px}
+.ps-n{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.02em;line-height:1;color:var(--green)}
+.ps-l{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)}
+.pc-more{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);cursor:pointer;border:none;background:none;padding:0;transition:opacity .2s}
+.pc-more::after{content:'→';font-size:13px}
+.pc-more:hover{opacity:.7}
+.pi{position:relative;overflow:hidden}
+.pi img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:.82;transition:opacity .5s,transform .5s}
+.prow:hover .pi img{opacity:1;transform:scale(1.03)}
+.pi::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(12,26,14,.5) 0%,transparent 18%),linear-gradient(to left,rgba(12,26,14,.3) 0%,transparent 15%),linear-gradient(to bottom,transparent 65%,rgba(12,26,14,.35) 100%);pointer-events:none}
+.prow.flip .pi::after{background:linear-gradient(to left,rgba(12,26,14,.5) 0%,transparent 18%),linear-gradient(to right,rgba(12,26,14,.3) 0%,transparent 15%),linear-gradient(to bottom,transparent 65%,rgba(12,26,14,.35) 100%)}
+.pi.vega-crop img{object-position:center 60%}
+
+/* No-cursor rows (VEGA has no modal) */
+.prow.no-modal{cursor:default}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(5,15,8,.97);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s ease;overflow-y:auto}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-inner{max-width:1100px;margin:0 auto;padding:80px 48px 120px;width:100%}
+.modal-close{position:sticky;top:24px;display:flex;justify-content:flex-end;margin-bottom:48px;z-index:10}
+.modal-close button{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);background:none;border:1px solid var(--border);padding:10px 20px;cursor:pointer;transition:color .2s,border-color .2s}
+.modal-close button:hover{color:var(--green);border-color:var(--gd)}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,88px);line-height:.88;color:var(--white);margin-bottom:12px}
+.modal-title .g{color:var(--green)}
+.modal-sub{font-family:'Fraunces',serif;font-size:16px;font-style:italic;color:var(--text3);margin-bottom:56px}
+.modal-photos{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+.modal-photos img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center;display:block;transition:transform .4s}
+.modal-photos img:hover{transform:scale(1.02)}
+.modal-photos img.tall{aspect-ratio:4/3}
+.modal-photos img.portrait{aspect-ratio:3/4}
+.modal-text{font-size:15px;line-height:1.82;color:var(--text2);max-width:680px;margin:48px 0}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);height:300px;gap:3px}
+.gi{overflow:hidden;position:relative}
+.gi img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.6) saturate(.75);transition:filter .5s,transform .5s}
+.gi:hover img{filter:brightness(.95) saturate(1.1);transform:scale(1.05)}
+.gi::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(5,15,8,.55) 100%);pointer-events:none}
+
+/* DJ SETS */
+.sets-section{background:var(--bg2)}
+.sets-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.sets-img-wrap{position:relative;overflow:hidden}
+.sets-img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;display:block;transition:transform .5s}
+.sets-img-wrap:hover .sets-img{transform:scale(1.03)}
+.sets-intro{font-family:'Fraunces',serif;font-size:clamp(16px,2vw,20px);font-style:italic;font-weight:300;color:var(--text2);line-height:1.6;margin-bottom:40px}
+.sets-list{display:flex;flex-direction:column}
+.si{display:flex;flex-direction:column;padding:20px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.si:first-child{border-top:1px solid var(--border)}
+.si-top{display:flex;align-items:center;gap:20px;transition:margin-bottom .3s}
+.si.open .si-top{margin-bottom:14px}
+.si-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--muted);flex-shrink:0;width:36px}
+.si-info{flex:1}
+.si-name{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text);transition:color .25s;line-height:1.2}
+.si:hover .si-name,.si.open .si-name{color:var(--green)}
+.si-genre{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-top:4px}
+.play-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .25s,border-color .25s}
+.si:hover .play-btn,.si.open .play-btn{background:var(--green);border-color:var(--green)}
+.play-t{width:0;height:0;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent var(--text3);margin-left:3px;transition:border-left-color .25s}
+.si:hover .play-t,.si.open .play-t{border-left-color:var(--bg)}
+.pause-icon{display:none;gap:3px;align-items:center;height:14px}
+.pause-icon span{width:3px;height:100%;background:var(--bg);border-radius:1px}
+.si.playing .play-t{display:none}
+.si.playing .pause-icon{display:flex}
+.si-audio{display:none;width:100%}
+.si.open .si-audio{display:block}
+.audio-wrap{background:var(--gdeep);border-radius:4px;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.audio-time{font-size:11px;color:var(--text3);letter-spacing:.05em;min-width:36px;font-variant-numeric:tabular-nums}
+.audio-bar{flex:1;height:3px;background:var(--border);border-radius:2px;position:relative;cursor:pointer}
+.audio-fill{height:100%;background:var(--green);border-radius:2px;width:0%;transition:width .1s linear}
+.audio-dot{width:10px;height:10px;background:var(--green);border-radius:50%;position:absolute;top:50%;right:0;transform:translate(50%,-50%);opacity:0;transition:opacity .2s}
+.audio-bar:hover .audio-dot{opacity:1}
+audio{display:none}
+
+/* OSMOZ */
+.osmoz-section{background:var(--bg)}
+.osmoz-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
+.osmoz-photo-wrap{position:relative;overflow:hidden}
+.osmoz-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;transition:transform .6s}
+.osmoz-photo-wrap:hover .osmoz-photo{transform:scale(1.03)}
+.osmoz-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--bg) 100%);pointer-events:none}
+.osmoz-badge{position:absolute;bottom:24px;left:24px;z-index:2;font-size:9px;letter-spacing:.2em;text-transform:uppercase;background:var(--green);color:var(--bg);padding:8px 16px;font-weight:500}
+
+/* PRODUCTION */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.prc{background:var(--card);border:1px solid var(--border);padding:44px 38px;position:relative;overflow:hidden;transition:background .3s}
+.prc:hover{background:#0f2214}
+.prc::after{content:attr(data-n);position:absolute;bottom:-28px;right:-6px;font-family:'Bebas Neue',sans-serif;font-size:148px;line-height:1;color:var(--border);pointer-events:none}
+.prc-icon{width:44px;height:44px;border:1px solid var(--gd);display:flex;align-items:center;justify-content:center;margin-bottom:28px;transition:background .3s}
+.prc:hover .prc-icon{background:var(--gdeep)}
+.prc-icon svg{width:22px;height:22px;stroke:var(--green);fill:none;stroke-width:1.5}
+.prc-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;color:var(--white);margin-bottom:12px}
+.prc-body{font-size:13px;line-height:1.82;color:var(--text2);position:relative;z-index:1}
+.prc-tools{margin-top:28px;display:flex;flex-wrap:wrap;gap:7px}
+.tool{font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;background:var(--bg);color:var(--text3);border:1px solid var(--border)}
+
+/* CONTACT */
+.contact-section{background:var(--bg2);min-height:55vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.contact-headline{font-family:'Fraunces',serif;font-size:clamp(32px,5.5vw,64px);font-weight:700;line-height:1.15;max-width:760px;margin-bottom:56px;position:relative;z-index:1}
+.contact-headline em{font-style:italic;color:var(--green)}
+.contact-row{display:flex;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+.cbtn{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:16px 28px;border-radius:100px;transition:border-color .25s,color .25s}
+.cbtn:hover{border-color:var(--gd);color:var(--green)}
+.cbtn.g{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:500}
+.cbtn.g:hover{background:#6af098}
+
+footer{background:var(--bg);padding:26px 48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)}
+
+@media(max-width:960px){
+  nav{padding:16px 24px}
+  section{padding:80px 24px}
+  .hero-content{padding:0 24px 52px}
+  .hero-pills{display:none}
+  .about-grid,.osmoz-grid{grid-template-columns:1fr}
+  .prow,.prow.flip{grid-template-columns:1fr;direction:ltr}
+  .pi{height:260px}
+  .sets-grid,.prod-grid{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr;height:auto}
+  .gi{height:180px}
+  .modal-photos{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:8px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-grvnt">
+  <div class="modal-inner">
+    <div class="modal-close"><button onclick="closeModal('modal-grvnt')">&#x2715; Fermer</button></div>
+    <div class="modal-title">GRVNT<br><span class="g">Showcase</span></div>
+    <div class="modal-sub">Rap live &middot; HEC Montr&eacute;al &middot; 2023/24</div>
+    <div class="modal-photos">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/crowd_r.jpg' alt="GRVNT crowd" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/bw2.jpg' alt="GRVNT live" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/lasers.jpg' alt="GRVNT lights">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/bw3.jpg' alt="GRVNT DJ">
+    </div>
+    <div class="modal-text">Une performance rap immersive qui r&eacute;imagine la culture underground &agrave; travers la lumi&egrave;re, la sc&eacute;nographie et l'&eacute;nergie collective. Douze artistes &eacute;mergents, une sc&egrave;ne, une salle uni&eacute;e par le rythme et l'&eacute;motion. GRVNT a transform&eacute; un lieu &eacute;tudiant en portrait vivant du pouls cr&eacute;atif montr&eacute;alais, sacr&eacute; &laquo; &Eacute;v&eacute;nement de l'ann&eacute;e &raquo; &agrave; HEC Montr&eacute;al.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-colors">
+  <div class="modal-inner">
+    <div class="modal-close"><button onclick="closeModal('modal-colors')">&#x2715; Fermer</button></div>
+    <div class="modal-title">A<br><span class="g">Colors Show</span></div>
+    <div class="modal-sub">ARV Reload &middot; Format COLORS Studios &middot; 2024</div>
+    <div class="modal-photos">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/colors2.jpg' alt="Colors Show" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/colors3.jpg' alt="Colors Show performance" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/colors4.jpg' alt="Colors Show close">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/colors1.jpg' alt="Colors title card">
+    </div>
+    <div class="modal-text">Un projet vid&eacute;o exp&eacute;rimental produit pour ARV Reload, m&ecirc;lant musique, lumi&egrave;re et direction artistique en une seule prise. Inspir&eacute; de l'esth&eacute;tique de COLORS Studios, le projet r&eacute;imagine ce concept &agrave; travers un prisme &eacute;tudiant, transformant une performance en exploration de l'identit&eacute;, de l'ambiance et du rythme visuel.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-datcha">
+  <div class="modal-inner">
+    <div class="modal-close"><button onclick="closeModal('modal-datcha')">&#x2715; Fermer</button></div>
+    <div class="modal-title">Le<br><span class="g">Datcha</span></div>
+    <div class="modal-sub">Club set &middot; Montr&eacute;al &middot; 2025/26</div>
+    <div class="modal-photos">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/extra2.jpg' alt="Datcha DJ booth" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha1.jpg' alt="Datcha crowd B&W" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha2.jpg' alt="Datcha crowd">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha3.jpg' alt="Datcha atmosphere">
+    </div>
+    <div class="modal-text">Une soir&eacute;e sold out au Datcha, l'un des clubs incontournables de Montr&eacute;al. Apr&egrave;s avoir convaincu le g&eacute;rant d'ouvrir ses portes &agrave; une association &eacute;tudiante pour la premi&egrave;re fois depuis plusieurs ann&eacute;es, le set de la nuit &eacute;tait assur&eacute; en direct, de la programmation &agrave; la direction sonore.</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-osmoz">
+  <div class="modal-inner">
+    <div class="modal-close"><button onclick="closeModal('modal-osmoz')">&#x2715; Fermer</button></div>
+    <div class="modal-title">Osm&ouml;z</div>
+    <div class="modal-sub">Duo DJ &middot; Disco &middot; UK Garage &middot; French House</div>
+    <div class="modal-photos">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/osmoz.jpg' alt="Osmöz" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha1.jpg' alt="Osmöz live" class="tall">
+    </div>
+    <div class="modal-text">Osm&ouml;z est un duo DJ qui met en lumi&egrave;re une musique &agrave; la crois&eacute;e de la disco, de l'UK garage et de la french house. Actif sur la sc&egrave;ne montr&eacute;alaise, un premier son &agrave; para&icirc;tre prochainement.</div>
+  </div>
+</div>
+
+<!-- DJ Sets modal — includes current Datcha photo -->
+<div class="modal-overlay" id="modal-sets">
+  <div class="modal-inner">
+    <div class="modal-close"><button onclick="closeModal('modal-sets')">&#x2715; Fermer</button></div>
+    <div class="modal-title">DJ<br><span class="g">Sets</span></div>
+    <div class="modal-sub">Live &middot; Club &middot; Montr&eacute;al</div>
+    <div class="modal-photos">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/extra2.jpg' alt="DJ Set Datcha" class="tall">
+      <img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/bw3.jpg' alt="DJ Set lights" class="tall">
+    </div>
+  </div>
+</div>
+
+<nav id="nav">
+  <div class="nav-logo">MGB</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#osmoz">Osm&ouml;z</a></li>
+    <li><a href="#sets">DJ Sets</a></li>
+    <li><a href="#prod">Production</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-img" id="heroBg" style="background-image:url('https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/dj.jpg')"></div>
+  <div class="hero-content">
+    <div class="hero-name-peek">Mathieu<br><span class="g">Gouyou</span><br>Beauchamps</div>
+    <p class="hero-sub-line">Production de projets musicaux et &eacute;v&eacute;nementiels, direction artistique, live, m&eacute;dias.</p>
+    <div class="hero-pills">
+      <span class="pill pf">HEC Montr&eacute;al</span>
+      <span class="pill pf">ESCP &mdash; MSc M&eacute;dias</span>
+      <span class="pill">Direction artistique</span>
+      <span class="pill">DJ &middot; Ableton</span>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="sh r"><span class="sn">01</span><h2 class="st">About</h2><div class="sl"></div></div>
+  <div class="about-grid">
+    <div class="about-photo-wrap r-l">
+      <img class="about-photo" src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/about_new.jpg' alt="Mathieu">
+      <div class="about-badge">DJ &middot; Producteur &middot; Montr&eacute;al</div>
+    </div>
+    <div class="r-r" style="padding-top:8px">
+      <div class="about-big">
+        &Eacute;tudiant &agrave; <strong>HEC Montr&eacute;al</strong>, prochainement admis &agrave; l'<strong>ESCP en MSc M&eacute;dias</strong>. D&eacute;veloppement de projets &agrave; l'intersection de la musique, de l'&eacute;v&eacute;nementiel et des m&eacute;dias, production artistique, direction de live, gestion budg&eacute;taire.
+      </div>
+      <div class="rows">
+        <div class="row r" style="transition-delay:.06s"><span class="rl">Formation</span><span class="rv">HEC Montr&eacute;al &middot; ESCP (MSc M&eacute;dias)</span></div>
+        <div class="row r" style="transition-delay:.12s"><span class="rl">Sp&eacute;cialit&eacute;s</span><span class="rv">Production &middot; Direction artistique &middot; Live</span></div>
+        <div class="row r" style="transition-delay:.18s"><span class="rl">Outils</span><span class="rv">Ableton Live &middot; Rekordbox &middot; Premiere Pro</span></div>
+        <div class="row r" style="transition-delay:.24s"><span class="rl">Langues</span><span class="rv">Fran&ccedil;ais natif &nbsp;&middot;&nbsp; English courant (TOEFL 103) &nbsp;&middot;&nbsp; Espa&ntilde;ol avanc&eacute;</span></div>
+        <div class="row r" style="transition-delay:.30s"><span class="rl">Bas&eacute; &agrave;</span><span class="rv">Montr&eacute;al, bient&ocirc;t Paris</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background:var(--bg);padding-bottom:0">
+  <div class="sh r" style="margin-bottom:56px"><span class="sn">02</span><h2 class="st">Projets</h2><div class="sl"></div></div>
+</section>
+
+<div class="proj-stack">
+
+  <!-- GRVNT -->
+  <div class="prow r" onclick="openModal('modal-grvnt')">
+    <div class="pt">
+      <div>
+        <div class="pc-num">01 &mdash; Direction artistique &middot; 2023/24</div>
+        <div class="pc-name">GRVNT<br><span class="g">Showcase</span></div>
+        <div class="pc-sub">Rap live &middot; HEC Montr&eacute;al</div>
+        <div class="pc-desc">Une performance rap immersive qui r&eacute;imagine la culture underground &agrave; travers la lumi&egrave;re, la sc&eacute;nographie et l'&eacute;nergie collective. Douze artistes &eacute;mergents, une sc&egrave;ne, une salle uni&eacute;e par le rythme et l'&eacute;motion. GRVNT a transform&eacute; un lieu &eacute;tudiant en portrait vivant du pouls cr&eacute;atif montr&eacute;alais, sacr&eacute; &laquo; &Eacute;v&eacute;nement de l'ann&eacute;e &raquo; &agrave; HEC Montr&eacute;al.</div>
+        <span class="pc-more">Voir plus</span>
+      </div>
+      <div class="pc-stats">
+        <div class="ps"><span class="ps-n">12</span><span class="ps-l">Artistes</span></div>
+        <div class="ps"><span class="ps-n">150</span><span class="ps-l">Spectateurs</span></div>
+        <div class="ps"><span class="ps-n">&#9733;</span><span class="ps-l">&Eacute;v. de l'ann&eacute;e</span></div>
+      </div>
+    </div>
+    <div class="pi"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/hero.jpg' alt="GRVNT showcase"></div>
+  </div>
+
+  <!-- A COLORS SHOW -->
+  <div class="prow flip r" style="transition-delay:.06s" onclick="openModal('modal-colors')">
+    <div class="pt">
+      <div>
+        <div class="pc-num">02 &mdash; Production visuelle &middot; 2024</div>
+        <div class="pc-name">A<br><span class="g">Colors Show</span></div>
+        <div class="pc-sub">ARV Reload &middot; Format COLORS Studios</div>
+        <div class="pc-desc">Un projet vid&eacute;o exp&eacute;rimental produit pour ARV Reload, m&ecirc;lant musique, lumi&egrave;re et direction artistique en une seule prise. Inspir&eacute; de l'esth&eacute;tique de COLORS Studios, le projet r&eacute;imagine ce concept &agrave; travers un prisme &eacute;tudiant, transformant une performance en exploration de l'identit&eacute;, de l'ambiance et du rythme visuel.</div>
+        <span class="pc-more">Voir plus</span>
+      </div>
+      <div class="pc-stats">
+        <div class="ps"><span class="ps-n">15</span><span class="ps-l">Participants</span></div>
+        <div class="ps"><span class="ps-n">Solo</span><span class="ps-l">De A &agrave; Z</span></div>
+      </div>
+    </div>
+    <div class="pi"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/colors1.jpg' alt="A Colors Show"></div>
+  </div>
+
+  <!-- LE DATCHA -->
+  <div class="prow r" style="transition-delay:.06s" onclick="openModal('modal-datcha')">
+    <div class="pt">
+      <div>
+        <div class="pc-num">03 &mdash; DJ Set &amp; Production &middot; 2025/26</div>
+        <div class="pc-name">Le<br><span class="g">Datcha</span></div>
+        <div class="pc-sub">Club set &middot; Montr&eacute;al</div>
+        <div class="pc-desc">Une soir&eacute;e sold out au Datcha, l'un des clubs incontournables de Montr&eacute;al. Apr&egrave;s avoir convaincu le g&eacute;rant d'ouvrir ses portes &agrave; une association &eacute;tudiante pour la premi&egrave;re fois depuis plusieurs ann&eacute;es, le set de la nuit &eacute;tait assur&eacute; en direct, de la programmation &agrave; la direction sonore.</div>
+        <span class="pc-more">Voir plus</span>
+      </div>
+      <div class="pc-stats">
+        <div class="ps"><span class="ps-n">100%</span><span class="ps-l">Sold out</span></div>
+        <div class="ps"><span class="ps-n">1er</span><span class="ps-l">En plusieurs ann&eacute;es</span></div>
+      </div>
+    </div>
+    <div class="pi"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/extra1.jpg' alt="Le Datcha"></div>
+  </div>
+
+  <!-- VEGA -->
+  <div class="prow flip no-modal r" style="transition-delay:.06s">
+    <div class="pt">
+      <div>
+        <div class="pc-num">04 &mdash; Direction de projet &middot; 2023/24</div>
+        <div class="pc-name">Comit&eacute;<br><span class="g">VEGA</span></div>
+        <div class="pc-sub">Association &eacute;tudiante &middot; HEC Montr&eacute;al</div>
+        <div class="pc-desc">VEGA est l'association qui a pris en charge l'int&eacute;gration de 300 &eacute;tudiants internationaux &agrave; HEC Montr&eacute;al, &agrave; travers 30 &eacute;v&eacute;nements sur l'ann&eacute;e. Direction op&eacute;rationnelle compl&egrave;te : un budget de 80 000 &agrave; 90 000 $ supervis&eacute; de bout en bout, une &eacute;quipe de 8 personnes coordonn&eacute;e, et un &eacute;v&eacute;nement majeur produit sur 4 mois avec 35 000 $ engag&eacute;s.</div>
+      </div>
+      <div class="pc-stats">
+        <div class="ps"><span class="ps-n">30</span><span class="ps-l">&Eacute;v&eacute;nements</span></div>
+        <div class="ps"><span class="ps-n">90k$</span><span class="ps-l">Budget</span></div>
+        <div class="ps"><span class="ps-n">8</span><span class="ps-l">Personnes</span></div>
+        <div class="ps"><span class="ps-n">&#9733;</span><span class="ps-l">Meilleur comit&eacute;</span></div>
+      </div>
+    </div>
+    <div class="pi vega-crop"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/vega_group.jpg' alt="VEGA team"></div>
+  </div>
+
+</div>
+
+<!-- GALLERY -->
+<div class="gallery" style="margin-top:3px">
+  <div class="gi r"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha1.jpg' alt=""></div>
+  <div class="gi r" style="transition-delay:.08s"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/datcha2.jpg' alt=""></div>
+  <div class="gi r" style="transition-delay:.16s"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/crowd_r.jpg' alt=""></div>
+  <div class="gi r" style="transition-delay:.24s"><img src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/lasers.jpg' alt=""></div>
+</div>
+
+<!-- OSMOZ -->
+<section id="osmoz" class="osmoz-section">
+  <div class="sh r"><span class="sn">03</span><h2 class="st">Osm&ouml;z</h2><div class="sl"></div></div>
+  <div class="osmoz-grid">
+    <div class="osmoz-photo-wrap r-l">
+      <img class="osmoz-photo" src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/osmoz.jpg' alt="Osmöz">
+      <div class="osmoz-badge">Duo DJ &middot; Montr&eacute;al</div>
+    </div>
+    <div class="r-r">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);line-height:.88;letter-spacing:.02em;color:var(--white);margin-bottom:12px">Osm&ouml;z<br><span style="color:var(--green)">Duo DJ</span></div>
+      <div style="font-family:'Fraunces',serif;font-size:16px;font-style:italic;color:var(--text3);margin-bottom:28px">Disco &middot; UK Garage &middot; French House</div>
+      <div style="font-size:clamp(14px,1.4vw,16px);line-height:1.78;color:var(--text2);margin-bottom:40px">
+        Osm&ouml;z est un duo DJ qui met en lumi&egrave;re une musique &agrave; la crois&eacute;e de la <strong style="color:var(--green)">disco</strong>, de l'<strong style="color:var(--green)">UK garage</strong> et de la <strong style="color:var(--green)">french house</strong>. Profond&eacute;ment influenc&eacute; par les sonorits groovy et dansantes des ann&eacute;es 90 jusqu'&agrave; aujourd'hui. Un premier son &agrave; para&icirc;tre prochainement.
+      </div>
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text3);margin-bottom:16px">Premi&egrave;re production</div>
+      <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:16px">BOND-ISH &mdash; Never Walk Alone (Osm&ouml;z Remix)</div>
+      <div class="si open r" id="osmoz-player" style="border-top:1px solid var(--border);cursor:default">
+        <div class="si-top" id="osmoz-top" style="cursor:pointer">
+          <div style="font-size:14px;color:var(--text3);margin-right:8px">&#9835;</div>
+          <div class="si-info">
+            <div class="si-name" style="font-size:15px">Never Walk Alone (Osm&ouml;z Remix)</div>
+            <div class="si-genre">BOND-ISH &middot; Osm&ouml;z</div>
+          </div>
+          <div class="play-btn" id="osmoz-play-btn">
+            <div class="play-t" id="osmoz-play-t"></div>
+            <div class="pause-icon" id="osmoz-pause"></div>
+          </div>
+        </div>
+        <div class="si-audio" style="display:block;margin-top:14px">
+          <div class="audio-wrap">
+            <span class="audio-time" id="osmoz-cur">0:00</span>
+            <div class="audio-bar" id="osmoz-bar"><div class="audio-fill" id="osmoz-fill"></div><div class="audio-dot"></div></div>
+            <span class="audio-time" id="osmoz-dur">--:--</span>
+          </div>
+          <audio id="osmoz-audio" preload="none"><source src='osmoz.mp3' type="audio/mp3"></audio>
+        </div>
+      </div>
+      <button class="pc-more" onclick="openModal('modal-osmoz')" style="margin-top:28px">Voir plus</button>
+    </div>
+  </div>
+</section>
+
+<!-- DJ SETS -->
+<section id="sets" style="background:var(--bg2)">
+  <div class="sh r"><span class="sn">04</span><h2 class="st">DJ Sets</h2><div class="sl"></div></div>
+  <div class="sets-grid">
+    <div class="r-l">
+      <p class="sets-intro">Je mixe r&eacute;guli&egrave;rement, Rekordbox pour la pr&eacute;paration, Ableton pour les sessions hybrides live/DJ.</p>
+      <div class="sets-list">
+        <div class="si r" style="transition-delay:.06s">
+          <div class="si-top">
+            <div class="si-num">01</div>
+            <div class="si-info"><div class="si-name">From Groovin' To HardGroovin' #1</div><div class="si-genre">Disco House</div></div>
+            <div class="play-btn"><div class="play-t"></div><div class="pause-icon"><span></span><span></span></div></div>
+          </div>
+          <div class="si-audio">
+            <div class="audio-wrap">
+              <span class="audio-time at-cur">0:00</span>
+              <div class="audio-bar"><div class="audio-fill"></div><div class="audio-dot"></div></div>
+              <span class="audio-time at-dur">--:--</span>
+            </div>
+            <audio preload="none"><source src='set1.mp3' type="audio/mp3"></audio>
+          </div>
+        </div>
+        <div class="si r" style="transition-delay:.12s">
+          <div class="si-top">
+            <div class="si-num">02</div>
+            <div class="si-info"><div class="si-name">From Groovin' To HardGroovin' #2</div><div class="si-genre">Minimal UK House</div></div>
+            <div class="play-btn"><div class="play-t"></div><div class="pause-icon"><span></span><span></span></div></div>
+          </div>
+          <div class="si-audio">
+            <div class="audio-wrap">
+              <span class="audio-time at-cur">0:00</span>
+              <div class="audio-bar"><div class="audio-fill"></div><div class="audio-dot"></div></div>
+              <span class="audio-time at-dur">--:--</span>
+            </div>
+            <audio preload="none"><source src='set2.mp3' type="audio/mp3"></audio>
+          </div>
+        </div>
+        <div class="si r" style="transition-delay:.18s">
+          <div class="si-top">
+            <div class="si-num">03</div>
+            <div class="si-info"><div class="si-name">From Groovin' To HardGroovin' #3</div><div class="si-genre">UK Garage</div></div>
+            <div class="play-btn"><div class="play-t"></div><div class="pause-icon"><span></span><span></span></div></div>
+          </div>
+          <div class="si-audio">
+            <div class="audio-wrap">
+              <span class="audio-time at-cur">0:00</span>
+              <div class="audio-bar"><div class="audio-fill"></div><div class="audio-dot"></div></div>
+              <span class="audio-time at-dur">--:--</span>
+            </div>
+            <audio preload="none"><source src='set3.mp3' type="audio/mp3"></audio>
+          </div>
+        </div>
+        <!-- Photos link -->
+        <div style="margin-top:24px">
+          <button class="pc-more" onclick="openModal('modal-sets')">Photos de sets</button>
+        </div>
+      </div>
+    </div>
+    <div class="sets-img-wrap r-r">
+      <img class="sets-img" src='https://raw.githubusercontent.com/mathieugb2004/Porfolio/main/bw2.jpg' alt="DJ live">
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTION -->
+<section id="prod" style="background:var(--bg)">
+  <div class="sh r"><span class="sn">05</span><h2 class="st">Production</h2><div class="sl"></div></div>
+  <div class="prod-grid">
+    <div class="prc r" data-n="1">
+      <div class="prc-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+      <div class="prc-title">Musique</div>
+      <div class="prc-body">Production r&eacute;guli&egrave;re sur Ableton Live. Rap, &eacute;lectro, ambient. De la recherche de sample &agrave; la direction artistique compl&egrave;te, &eacute;criture, arrangement, enregistrement.</div>
+      <div class="prc-tools"><span class="tool">Ableton Live</span><span class="tool">Production</span><span class="tool">Arrangement</span></div>
+    </div>
+    <div class="prc r" data-n="2" style="transition-delay:.09s">
+      <div class="prc-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.845v6.31a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg></div>
+      <div class="prc-title">Vid&eacute;o</div>
+      <div class="prc-body">Direction artistique de shoots, tournage, montage et &eacute;talonnage. Exp&eacute;rience sur A Colors Show, de l'id&eacute;e &agrave; la post-prod, en solo, format COLORS Studios.</div>
+      <div class="prc-tools"><span class="tool">Premiere Pro</span><span class="tool">Lightroom</span><span class="tool">&Eacute;talonnage</span></div>
+    </div>
+    <div class="prc r" data-n="3" style="transition-delay:.18s">
+      <div class="prc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="prc-title">Live &amp; Booking</div>
+      <div class="prc-body">Production de showcases, n&eacute;gociation de salles (Le Datcha), coordination technique et artistique. Du rider au backline, de la billetterie au debriefing.</div>
+      <div class="prc-tools"><span class="tool">Rekordbox</span><span class="tool">Booking</span><span class="tool">Sc&eacute;nographie</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="sh r"><span class="sn">06</span><h2 class="st">Contact</h2><div class="sl"></div></div>
+  <div class="contact-headline r">Une id&eacute;e, un projet,<br><em>une collaboration&nbsp;?</em><br>Parlons-en.</div>
+  <div class="contact-row r" style="transition-delay:.1s">
+    <a class="cbtn g" href="/cdn-cgi/l/email-protection#b1dcd0c5d9d8d4c4d6dec4c8dec4f1d6dcd0d8dd9fd2dedc"><span class="__cf_email__" data-cfemail="eb868a9f83828e9e8c849e92849eab8c868a8287c5888486">[email&#160;protected]</span></a>
+    <a class="cbtn" href="tel:+33609813706">+33 6 09 81 37 06</a>
+  </div>
+</section>
+
+<footer>
+  <span>&copy; 2026 Mathieu Gouyou Beauchamps</span>
+  <span>Montr&eacute;al &middot; Paris</span>
+  <span>Music &middot; Media &middot; Events</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+/* Hero parallax: start anchored at bottom (100%), scroll up reveals top */
+const heroBg = document.getElementById('heroBg');
+window.addEventListener('scroll', () => {
+  const pct = Math.max(0, 1 - scrollY / window.innerHeight);
+  
+}, { passive: true });
+
+/* Scroll reveal */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+  });
+}, { threshold: .07, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.r,.r-l,.r-r').forEach(el => io.observe(el));
+
+/* Modals */
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+});
+
+/* DJ set audio players */
+function fmt(s){s=Math.floor(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+document.querySelectorAll('.si:not(#osmoz-player)').forEach(si => {
+  const audio = si.querySelector('audio');
+  if (!audio) return;
+  const fill = si.querySelector('.audio-fill');
+  const cur = si.querySelector('.at-cur');
+  const dur = si.querySelector('.at-dur');
+  const bar = si.querySelector('.audio-bar');
+  si.querySelector('.si-top').addEventListener('click', () => {
+    const isOpen = si.classList.contains('open');
+    document.querySelectorAll('.si.open:not(#osmoz-player)').forEach(s => {
+      if(s!==si){s.classList.remove('open','playing');const a=s.querySelector('audio');if(a)a.pause();}
+    });
+    if(!isOpen){si.classList.add('open');audio.play();si.classList.add('playing');}
+    else{if(audio.paused){audio.play();si.classList.add('playing');}else{audio.pause();si.classList.remove('playing');}}
+  });
+  audio.addEventListener('loadedmetadata',()=>{if(dur)dur.textContent=fmt(audio.duration)});
+  audio.addEventListener('timeupdate',()=>{
+    if(cur)cur.textContent=fmt(audio.currentTime);
+    if(fill&&audio.duration)fill.style.width=(audio.currentTime/audio.duration*100)+'%';
+  });
+  audio.addEventListener('ended',()=>si.classList.remove('playing'));
+  if(bar)bar.addEventListener('click',e=>{
+    if(!audio.duration)return;
+    const rect=bar.getBoundingClientRect();
+    audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
+  });
+});
+
+/* Osmöz player */
+const oA=document.getElementById('osmoz-audio');
+const oF=document.getElementById('osmoz-fill');
+const oC=document.getElementById('osmoz-cur');
+const oD=document.getElementById('osmoz-dur');
+const oBar=document.getElementById('osmoz-bar');
+const oPT=document.getElementById('osmoz-play-t');
+const oPI=document.getElementById('osmoz-pause');
+const oBtn=document.getElementById('osmoz-play-btn');
+document.getElementById('osmoz-top').addEventListener('click',()=>{
+  document.querySelectorAll('.si.open:not(#osmoz-player)').forEach(s=>{
+    s.classList.remove('playing');const a=s.querySelector('audio');if(a)a.pause();
+  });
+  if(oA.paused){oA.play();oPT.style.display='none';oPI.style.display='flex';oBtn.style.background='var(--green)';oBtn.style.borderColor='var(--green)';}
+  else{oA.pause();oPT.style.display='';oPI.style.display='';oBtn.style.background='';oBtn.style.borderColor='';}
+});
+oA.addEventListener('loadedmetadata',()=>{oD.textContent=fmt(oA.duration)});
+oA.addEventListener('timeupdate',()=>{
+  oC.textContent=fmt(oA.currentTime);
+  if(oA.duration)oF.s
