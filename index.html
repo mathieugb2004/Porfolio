@@ -24,12 +24,12 @@ nav.scrolled{background:rgba(5,15,8,.93);border-color:var(--border);backdrop-fil
 .nav-links a:hover{color:var(--green)}
 
 /* HERO — parallax, starts showing bottom of image */
-.hero{height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero{height:80vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
 .hero-img{
   position:absolute;inset:0;
   background-size:cover;
   /* Start anchored to bottom so we see the bottom of the photo first */
-  background-position:center 100%;
+  background-position:center 35%;
   will-change:background-position;
 }
 .hero-img::after{
@@ -596,7 +596,7 @@ window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY
 const heroBg = document.getElementById('heroBg');
 window.addEventListener('scroll', () => {
   const pct = Math.max(0, 1 - scrollY / window.innerHeight);
-  heroBg.style.backgroundPosition = 'center ' + (pct * 100) + '%';
+  
 }, { passive: true });
 
 /* Scroll reveal */
